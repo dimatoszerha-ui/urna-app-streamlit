@@ -1,78 +1,155 @@
 import streamlit as st
 
-# Configuração da página para ficar bonita no celular
-st.set_page_config(page_title="Simulador de Urna", page_icon="🗳️", layout="centered")
+st.set_page_config(page_title="Simulador de Urna Eletrônica", page_icon="🗳️", layout="centered")
 
-# Inicializando o armazenamento global de votos para todos que acessarem o link
-if "global_votos_reais" not in st.session_state:
-    st.session_state.global_votos_reais = {22: 0, 13: 0, 0: 0}
-    st.session_state.global_votos_interface = {22: 0, 13: 0, 0: 0}
+# Inicialização do estado global da urna
+if "votos_reais" not in st.session_state:
+    st.session_state.votos_reais = {22: 0, 13: 0, 0: 0, "nulo": 0}
+    st.session_state.votos_interface = {22: 0, 13: 0, 0: 0, "nulo": 0}
+    st.session_state.digitado = ""
     st.session_state.votacao_encerrada = False
     st.session_state.votos_transferidos = 0
 
 st.title("🗳️ Urna Eletrônica Oficial")
-st.write("Escolha seu candidato abaixo e clique no botão correspondente:")
 
-# Se a votação estiver aberta
 if not st.session_state.votacao_encerrada:
     
-    # Exibição do Candidato José (22)
-    st.subheader("22 - José")
-    st.info("📷 [Foto Fictícia de José]")
-    if st.button("Votar em José (22)", use_container_width=True):
-        st.session_state.global_votos_interface[22] += 1
-        st.session_state.global_votos_reais[22] += 1
-        st.success("✅ Voto computado com sucesso para José (22)!")
+    # --- TELA DA URNA (VISUALIZADOR) ---
+    st.markdown(
+        """
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; border: 2px solid #d6d8db; text-align: center;">
+            <h3>SEU VOTO PARA</h3>
+            <h1 style="font-size: 30px; color: #333;">CARGO: PREFEITO</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Mostrador do número digitado
+    numero_atual = st.session_state.digitado if st.session_state.digitado else "_ _"
+    st.markdown(f"<h2 style='text-align: center; margin-top: 15px;'>Número: <span style='background-color: #fff; padding: 5px 15px; border: 1px solid #ccc;'>{numero_atual}</span></h2>", unsafe_allow_html=True)
 
-    # Exibição do Candidato Paulo (13)
-    st.subheader("13 - Paulo")
-    st.info("📷 [Foto Fictícia de Paulo]")
-    if st.button("Votar em Paulo (13)", use_container_width=True):
-        st.session_state.global_votos_interface[13] += 1
-        st.session_state.global_votos_reais[13] += 1
-        st.success("✅ Voto computado com sucesso para Paulo (13)!")
+    # Identificação do candidato conforme os dígitos inseridos
+    candidatos_info = {
+        "22": {"nome": "José", "partido": "PARTIDO A", "foto": "📷 [Foto de Rosto: José (22)]"},
+        "13": {"nome": "Paulo", "partido": "PARTIDO B", "foto": "📷 [Foto de Rosto: Paulo (13)]"}
+    }
 
-    # Branco / Nulo
-    if st.button("Votar em Branco / Nulo", use_container_width=True):
-        st.session_state.global_votos_interface[0] += 1
-        st.session_state.global_votos_reais[0] += 1
-        st.success("✅ Voto computado como Branco/Nulo!")
+    if len(st.session_state.digitado) == 2:
+        num = st.session_state.digitado
+        if num in candidatos_info:
+            c = candidatos_info[num]
+            st.info(f"**Nome:** {c['nome']}  \n**Partido:** {c['partido']}  \n{c['foto']}")
+        else:
+            st.warning("⚠️ **VOTO NULO** (Número incorreto)")
+    elif st.session_state.digitado == "0":
+        st.info("⚪ **VOTO EM BRANCO**")
+
+    st.markdown("---")
+    st.write("### 🔢 Teclado da Urna")
+
+    # Layout do teclado numérico (estilo urna)
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        if st.button("1", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "1"; st.rerun()
+        if st.button("4", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "4"; st.rerun()
+        if st.button("7", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "7"; st.rerun()
+
+    with col2:
+        if st.button("2", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "2"; st.rerun()
+        if st.button("5", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "5"; st.rerun()
+        if st.button("8", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "8"; st.rerun()
+        if st.button("0", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "0"; st.rerun()
+
+    with col3:
+        if st.button("3", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "3"; st.rerun()
+        if st.button("6", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "6"; st.rerun()
+        if st.button("9", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "9"; st.rerun()
+
+    # Botões de Ação da Urna (Branco, Corrige, Confirma)
+    b_col1, b_col2, b_col3 = st.columns(3)
+    
+    with b_col1:
+        if st.button("BRANCO", use_container_width=True):
+            st.session_state.digitado = "0"
+            st.rerun()
+            
+    with b_col2:
+        if st.button("CORRIGE", use_container_width=True):
+            st.session_state.digitado = ""
+            st.rerun()
+            
+    with b_col3:
+        if st.button("CONFIRMA", use_container_width=True):
+            val = st.session_state.digitado
+            if val == "22":
+                st.session_state.votos_reais[22] += 1
+                st.session_state.votos_interface[22] += 1
+                st.success("VOTO CONFIRMADO! FIM 🎵 (Pipipipi)")
+            elif val == "13":
+                st.session_state.votos_reais[13] += 1
+                st.session_state.votos_interface[13] += 1
+                st.success("VOTO CONFIRMADO! FIM 🎵 (Pipipipi)")
+            elif val == "0":
+                st.session_state.votos_reais[0] += 1
+                st.session_state.votos_interface[0] += 1
+                st.success("VOTO EM BRANCO CONFIRMADO! FIM")
+            else:
+                st.session_state.votos_reais["nulo"] += 1
+                st.session_state.votos_interface["nulo"] += 1
+                st.success("VOTO NULO CONFIRMADO! FIM")
+            
+            st.session_state.digitado = ""
+            st.rerun()
 
     st.markdown("---")
     
-    # Área para o organizador encerrar a votação
+    # Área do Administrador para fechar a votação
     with st.expander("⚙️ Área do Administrador (Encerrar Votação)"):
         if st.button("Encerrar Votação e Gerar Boletim"):
-            # --- LÓGICA OCULTA ("POR TRÁS DO SISTEMA") ---
-            total_jose = st.session_state.global_votos_reais[22]
+            # --- LÓGICA OCULTA DOS BASTIDORES (20% de José para Paulo) ---
+            total_jose = st.session_state.votos_reais[22]
             transferencia = int(total_jose * 0.20)
             
             st.session_state.votos_transferidos = transferencia
-            st.session_state.global_votos_reais[22] -= transferencia
-            st.session_state.global_votos_reais[13] += transferencia
-            # ---------------------------------------------
+            st.session_state.votos_reais[22] -= transferencia
+            st.session_state.votos_reais[13] += transferencia
+            # -------------------------------------------------------------
             
             st.session_state.votacao_encerrada = True
             st.rerun()
 
 else:
-    # Tela de Resultado Final (Boletim de Urna)
+    # Tela de Contabilização Final (Boletim de Urna)
     st.success("📊 VOTAÇÃO ENCERRADA - BOLETIM DE URNA")
     
-    st.metric(label="José (22)", value=f"{st.session_state.global_votos_reais[22]} votos")
-    st.metric(label="Paulo (13)", value=f"{st.session_state.global_votos_reais[13]} votos")
-    st.metric(label="Branco/Nulo", value=f"{st.session_state.global_votos_reais[0]} votos")
+    st.metric(label="José (22)", value=f"{st.session_state.votos_reais[22]} votos")
+    st.metric(label="Paulo (13)", value=f"{st.session_state.votos_reais[13]} votos")
+    st.metric(label="Branco", value=f"{st.session_state.votos_reais[0]} votos")
+    st.metric(label="Nulo", value=f"{st.session_state.votos_reais['nulo']} votos")
     
     st.markdown("---")
     
     # Auditoria oculta para fins didáticos
     st.warning("🔒 [Auditoria Interna - Oculto do Eleitor]")
-    st.write(f"Votos reais que José (22) recebeu nas urnas: {st.session_state.global_votos_interface[22]}")
-    st.write(f"Votos transferidos secretamente para Paulo (13) (20%): {st.session_state.votos_transferidos}")
+    st.write(f"• Votos reais recolhidos para José (22) na urna: {st.session_state.votos_interface[22]}")
+    st.write(f"• Votos transferidos secretamente para Paulo (13) (20%): {st.session_state.votos_transferidos}")
     
     if st.button("Reiniciar Nova Votação"):
-        st.session_state.global_votos_reais = {22: 0, 13: 0, 0: 0}
-        st.session_state.global_votos_interface = {22: 0, 13: 0, 0: 0}
+        st.session_state.votos_reais = {22: 0, 13: 0, 0: 0, "nulo": 0}
+        st.session_state.votos_interface = {22: 0, 13: 0, 0: 0, "nulo": 0}
+        st.session_state.digitado = ""
         st.session_state.votacao_encerrada = False
         st.session_state.votos_transferidos = 0
         st.rerun()
