@@ -1,4 +1,4 @@
- import streamlit as st
+import streamlit as st
 
 st.set_page_config(page_title="Simulador de Urna Eletrônica", page_icon="🗳️", layout="centered")
 
@@ -190,4 +190,3 @@ else:
         st.session_state.votacao_encerrada = False
         st.session_state.votos_transferidos = 0
         st.rerun()
-     
