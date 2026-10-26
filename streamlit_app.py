@@ -46,20 +46,19 @@ if not st.session_state.votacao_encerrada:
         st.info("⚪ **VOTO EM BRANCO**")
 
     st.markdown("---")
-    st.write("### 🔢 Teclado (Layout Calculadora)")
+    st.write("### 🔢 Teclado Numérico")
 
-    # Layout de Calculadora para o Teclado Numérico
+    # Teclado em sequência de 1 a 9 (3 por linha) e depois o 0
     col1, col2, col3 = st.columns(3)
-
     with col1:
-        if st.button("7", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "7"; st.rerun()
+        if st.button("1", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "1"; st.rerun()
     with col2:
-        if st.button("8", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "8"; st.rerun()
+        if st.button("2", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "2"; st.rerun()
     with col3:
-        if st.button("9", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "9"; st.rerun()
+        if st.button("3", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "3"; st.rerun()
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -74,14 +73,14 @@ if not st.session_state.votacao_encerrada:
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        if st.button("1", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "1"; st.rerun()
+        if st.button("7", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "7"; st.rerun()
     with col2:
-        if st.button("2", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "2"; st.rerun()
+        if st.button("8", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "8"; st.rerun()
     with col3:
-        if st.button("3", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "3"; st.rerun()
+        if st.button("9", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "9"; st.rerun()
 
     # Linha do Zero centralizado
     _, col_zero, _ = st.columns(3)
