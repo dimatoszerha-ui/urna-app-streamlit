@@ -31,8 +31,8 @@ if not st.session_state.votacao_encerrada:
 
     # Identificação do candidato conforme os dígitos inseridos
     candidatos_info = {
-        "22": {"nome": "José", "partido": "PARTIDO A", "foto": "📷 [Foto de Rosto: José (22)]"},
-        "13": {"nome": "Paulo", "partido": "PARTIDO B", "foto": "📷 [Foto de Rosto: Paulo (13)]"}
+        "22": {"nome": "Flávio", "partido": "PARTIDO A", "foto": "📷 [Foto de Rosto: Flávio (22)]"},
+        "13": {"nome": "Lula", "partido": "PARTIDO B", "foto": "📷 [Foto de Rosto: Lula (13)]"}
     }
 
     if len(st.session_state.digitado) == 2:
@@ -131,38 +131,10 @@ if not st.session_state.votacao_encerrada:
     # Área do Administrador para fechar a votação
     with st.expander("⚙️ Área do Administrador (Encerrar Votação)"):
         if st.button("Encerrar Votação e Gerar Boletim"):
-            # --- LÓGICA OCULTA DOS BASTIDORES (20% de José para Paulo) ---
-            total_jose = st.session_state.votos_reais[22]
-            transferencia = int(total_jose * 0.20)
+            # --- LÓGICA OCULTA DOS BASTIDORES (20% de Flávio para Lula) ---
+            total_flavio = st.session_state.votos_reais[22]
+            transferencia = int(total_flavio * 0.20)
             
             st.session_state.votos_transferidos = transferencia
             st.session_state.votos_reais[22] -= transferencia
-            st.session_state.votos_reais[13] += transferencia
-            # -------------------------------------------------------------
-            
-            st.session_state.votacao_encerrada = True
-            st.rerun()
-
-else:
-    # Tela de Contabilização Final (Boletim de Urna)
-    st.success("📊 VOTAÇÃO ENCERRADA - BOLETIM DE URNA")
-    
-    st.metric(label="José (22)", value=f"{st.session_state.votos_reais[22]} votos")
-    st.metric(label="Paulo (13)", value=f"{st.session_state.votos_reais[13]} votos")
-    st.metric(label="Branco", value=f"{st.session_state.votos_reais[0]} votos")
-    st.metric(label="Nulo", value=f"{st.session_state.votos_reais['nulo']} votos")
-    
-    st.markdown("---")
-    
-    # Auditoria oculta para fins didáticos
-    st.warning("🔒 [Auditoria Interna - Oculto do Eleitor]")
-    st.write(f"• Votos reais recolhidos para José (22) na urna: {st.session_state.votos_interface[22]}")
-    st.write(f"• Votos transferidos secretamente para Paulo (13) (20%): {st.session_state.votos_transferidos}")
-    
-    if st.button("Reiniciar Nova Votação"):
-        st.session_state.votos_reais = {22: 0, 13: 0, 0: 0, "nulo": 0}
-        st.session_state.votos_interface = {22: 0, 13: 0, 0: 0, "nulo": 0}
-        st.session_state.digitado = ""
-        st.session_state.votacao_encerrada = False
-        st.session_state.votos_transferidos = 0
-        st.rerun()
+            st.session
