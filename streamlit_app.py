@@ -14,20 +14,20 @@ st.title("🗳️ Urna Eletrônica Oficial")
 
 if not st.session_state.votacao_encerrada:
     
-    # --- TELA DA URNA (VISUALIZADOR) ---
+    # --- TELA DA URNA ---
     st.markdown(
         """
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; border: 2px solid #d6d8db; text-align: center;">
             <h3>SEU VOTO PARA</h3>
-            <h1 style="font-size: 30px; color: #333;">CARGO: PREFEITO</h1>
+            <h1 style="font-size: 28px; color: #333;">CARGO: PREFEITO</h1>
         </div>
         """,
         unsafe_allow_html=True
     )
     
-    # Mostrador do número digitado
+    # Mostrador do número digitado em AZUL
     numero_atual = st.session_state.digitado if st.session_state.digitado else "_ _"
-    st.markdown(f"<h2 style='text-align: center; margin-top: 15px;'>Número: <span style='background-color: #fff; padding: 5px 15px; border: 1px solid #ccc;'>{numero_atual}</span></h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center; margin-top: 15px;'>Número: <span style='color: blue; background-color: #fff; padding: 5px 20px; border: 2px solid #ccc; border-radius: 5px;'>{numero_atual}</span></h2>", unsafe_allow_html=True)
 
     # Identificação do candidato conforme os dígitos inseridos
     candidatos_info = {
@@ -46,36 +46,50 @@ if not st.session_state.votacao_encerrada:
         st.info("⚪ **VOTO EM BRANCO**")
 
     st.markdown("---")
-    st.write("### 🔢 Teclado da Urna")
+    st.write("### 🔢 Teclado (Layout Calculadora)")
 
-    # Layout do teclado numérico (estilo urna)
+    # Layout de Calculadora para o Teclado Numérico
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        if st.button("1", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "1"; st.rerun()
-        if st.button("4", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "4"; st.rerun()
         if st.button("7", use_container_width=True): 
             if len(st.session_state.digitado) < 2: st.session_state.digitado += "7"; st.rerun()
+    with col2:
+        if st.button("8", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "8"; st.rerun()
+    with col3:
+        if st.button("9", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "9"; st.rerun()
 
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("4", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "4"; st.rerun()
+    with col2:
+        if st.button("5", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "5"; st.rerun()
+    with col3:
+        if st.button("6", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "6"; st.rerun()
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("1", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "1"; st.rerun()
     with col2:
         if st.button("2", use_container_width=True): 
             if len(st.session_state.digitado) < 2: st.session_state.digitado += "2"; st.rerun()
-        if st.button("5", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "5"; st.rerun()
-        if st.button("8", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "8"; st.rerun()
-        if st.button("0", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "0"; st.rerun()
-
     with col3:
         if st.button("3", use_container_width=True): 
             if len(st.session_state.digitado) < 2: st.session_state.digitado += "3"; st.rerun()
-        if st.button("6", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "6"; st.rerun()
-        if st.button("9", use_container_width=True): 
-            if len(st.session_state.digitado) < 2: st.session_state.digitado += "9"; st.rerun()
+
+    # Linha do Zero centralizado
+    _, col_zero, _ = st.columns(3)
+    with col_zero:
+        if st.button("0", use_container_width=True): 
+            if len(st.session_state.digitado) < 2: st.session_state.digitado += "0"; st.rerun()
+
+    st.markdown("---")
 
     # Botões de Ação da Urna (Branco, Corrige, Confirma)
     b_col1, b_col2, b_col3 = st.columns(3)
@@ -96,11 +110,11 @@ if not st.session_state.votacao_encerrada:
             if val == "22":
                 st.session_state.votos_reais[22] += 1
                 st.session_state.votos_interface[22] += 1
-                st.success("VOTO CONFIRMADO! FIM 🎵 (Pipipipi)")
+                st.success("VOTO CONFIRMADO! FIM 🎵")
             elif val == "13":
                 st.session_state.votos_reais[13] += 1
                 st.session_state.votos_interface[13] += 1
-                st.success("VOTO CONFIRMADO! FIM 🎵 (Pipipipi)")
+                st.success("VOTO CONFIRMADO! FIM 🎵")
             elif val == "0":
                 st.session_state.votos_reais[0] += 1
                 st.session_state.votos_interface[0] += 1
