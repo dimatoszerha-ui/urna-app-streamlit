@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 
 st.set_page_config(page_title="Simulador de Urna Eletrônica", page_icon="🗳️", layout="centered")
 
@@ -184,4 +184,10 @@ else:
     st.write(f"• Votos transferidos secretamente para Lula (13) (20%): {st.session_state.votos_transferidos}")
     
     if st.button("Reiniciar Nova Votação"):
-        st.session_state.votos_reais = {22: 0, 13: 0, 0: 0, "
+        st.session_state.votos_reais = {22: 0, 13: 0, 0: 0, "nulo": 0}
+        st.session_state.votos_interface = {22: 0, 13: 0, 0: 0, "nulo": 0}
+        st.session_state.digitado = ""
+        st.session_state.votacao_encerrada = False
+        st.session_state.votos_transferidos = 0
+        st.rerun()
+     
